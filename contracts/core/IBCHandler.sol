@@ -19,7 +19,7 @@ contract IBCHandler {
     event RecvPacket(Packet.Data packet);
     event WriteAcknowledgement(string destinationPortId, string destinationChannel, uint64 sequence, bytes acknowledgement);
     event AcknowledgePacket(Packet.Data packet, bytes acknowledgement);
-    event TraceMe(string log);
+    event TraceMe(string);
 
     constructor(IBCHost host_) {
         owner = msg.sender;

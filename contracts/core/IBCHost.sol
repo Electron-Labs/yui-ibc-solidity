@@ -30,6 +30,7 @@ contract IBCHost {
     event GeneratedClientIdentifier(string);
     event GeneratedConnectionIdentifier(string);
     event GeneratedChannelIdentifier(string);
+    event TraceMe(string);
 
     address owner;
     address ibcModule;
@@ -241,6 +242,7 @@ contract IBCHost {
         for (uint32 i = 0; i < capabilities[name].length; i++) {
             require(capabilities[name][i] != addr);
         }
+        emit TraceMe("claim_cap");
         capabilities["test"].push(addr);
         capabilities[name].push(addr);
     }
