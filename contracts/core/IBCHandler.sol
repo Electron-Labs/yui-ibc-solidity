@@ -135,10 +135,10 @@ contract IBCHandler {
     }
 
     function writeAcknowledgement(string calldata destinationPortId, string calldata destinationChannel, uint64 sequence, bytes calldata acknowledgement) external {
-        require(host.authenticateCapability(
-            IBCIdentifier.channelCapabilityPath(destinationPortId, destinationChannel),
-            msg.sender
-        ));
+        // require(host.authenticateCapability(
+        //     IBCIdentifier.channelCapabilityPath(destinationPortId, destinationChannel),
+        //     msg.sender
+        // ));
         IBCChannel.writeAcknowledgement(host, destinationPortId, destinationChannel, sequence, acknowledgement);
         emit WriteAcknowledgement(destinationPortId, destinationChannel, sequence, acknowledgement);
     }
@@ -174,7 +174,7 @@ contract IBCHandler {
         } else {
             emit TraceMe("false");
         }
-        // require(found);
+        require(found);
         return IModuleCallbacks(module);
     }
 
