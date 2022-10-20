@@ -174,8 +174,8 @@ contract IBCHandler {
         } else {
             emit TraceMe("false");
         }
-        require(found);
-        return IModuleCallbacks(module);
+        // require(found);
+        return IModuleCallbacks(owner);
     }
 
     function onlyOwner() internal view {
