@@ -175,7 +175,7 @@ contract IBCHandler {
             emit TraceMe("false");
         }
         // require(found);
-        return IModuleCallbacks(owner);
+        return IModuleCallbacks(module);
     }
 
     function onlyOwner() internal view {
