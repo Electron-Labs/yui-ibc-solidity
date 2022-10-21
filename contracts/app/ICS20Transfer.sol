@@ -56,10 +56,10 @@ abstract contract ICS20Transfer is Context, IICS20Transfer {
 
     function onRecvPacket(Packet.Data calldata packet) external virtual override returns (bytes memory acknowledgement) {
         FungibleTokenPacketData.Data memory data = FungibleTokenPacketData.decode(packet.data);
-        strings.slice memory denom = data.denom.toSlice();
-        strings.slice memory trimedDenom = data.denom.toSlice().beyond(
-            _makeDenomPrefix(packet.source_port, packet.source_channel)
-        );
+        // strings.slice memory denom = data.denom.toSlice();
+        // strings.slice memory trimedDenom = data.denom.toSlice().beyond(
+        //     _makeDenomPrefix(packet.source_port, packet.source_channel)
+        // );
         // if (!denom.equals(trimedDenom)) { // receiver is source chain
         //     return _newAcknowledgement(
         //         _transferFrom(_getEscrowAddress(packet.destination_channel), data.receiver.toAddress(), trimedDenom.toString(), data.amount)
