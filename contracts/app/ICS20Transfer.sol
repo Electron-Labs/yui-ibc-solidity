@@ -17,7 +17,9 @@ abstract contract ICS20Transfer is Context, IICS20Transfer {
 
     IBCHandler ibcHandler;
     IBCHost ibcHost;
-
+    
+    event SeePacket(Packet.Data packet);
+    
     mapping(string => address) channelEscrowAddresses;
 
     constructor(IBCHost host_, IBCHandler ibcHandler_) {
@@ -55,7 +57,8 @@ abstract contract ICS20Transfer is Context, IICS20Transfer {
     /// Module callbacks ///
 
     function onRecvPacket(Packet.Data calldata packet) external virtual override returns (bytes memory acknowledgement) {
-        FungibleTokenPacketData.Data memory data = FungibleTokenPacketData.decode(packet); 
+        emit SeePacket(packet);
+        // FungibleTokenPacketData.Data memory data = FungibleTokenPacketData.decode(packet.data); 
         //data.denom.toSlice();
         // strings.slice memory trimedDenom = data.denom.toSlice().beyond(
         //     _makeDenomPrefix(packet.source_port, packet.source_channel)
