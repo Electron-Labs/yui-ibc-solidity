@@ -20,6 +20,7 @@ contract IBCHandler {
     event WriteAcknowledgement(string destinationPortId, string destinationChannel, uint64 sequence, bytes acknowledgement);
     event AcknowledgePacket(Packet.Data packet, bytes acknowledgement);
     event TraceMe(string);
+    event TraceBool(bool);
 
     constructor(IBCHost host_) {
         owner = msg.sender;
@@ -123,15 +124,15 @@ contract IBCHandler {
 
     function recvPacket(IBCMsgs.MsgPacketRecv calldata msg_) external returns (bytes memory acknowledgement) {
         IModuleCallbacks module = lookupModuleByChannel(msg_.packet.destination_port, msg_.packet.destination_channel);
-        acknowledgement = module.onRecvPacket(msg_.packet);
+        // acknowledgement = module.onRecvPacket(msg_.packet);
         // IBCChannel.recvPacket(host, msg_);
         // if (acknowledgement.length > 0) {
         //     IBCChannel.writeAcknowledgement(host, msg_.packet.destination_port, msg_.packet.destination_channel, msg_.packet.sequence, acknowledgement);
         //     emit WriteAcknowledgement(msg_.packet.destination_port, msg_.packet.destination_channel, msg_.packet.sequence, acknowledgement);
         // }
         // emit RecvPacket(msg_.packet);
-        return acknowledgement;
-        // return "0x00";
+        // return acknowledgement;
+        return "0x00";
     }
 
     function writeAcknowledgement(string calldata destinationPortId, string calldata destinationChannel, uint64 sequence, bytes calldata acknowledgement) external {
@@ -169,11 +170,7 @@ contract IBCHandler {
 
     function lookupModuleByChannel(string memory portId, string memory channelId) internal returns (IModuleCallbacks) {
         (address module, bool found) = host.getModuleOwner(IBCIdentifier.channelCapabilityPath(portId, channelId));
-        if (found) {
-            emit TraceMe("true");
-        } else {
-            emit TraceMe("false");
-        }
+        emit TraceBool(found);
         // require(found);
         return IModuleCallbacks(module);
     }
