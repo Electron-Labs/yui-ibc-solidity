@@ -60,16 +60,17 @@ abstract contract ICS20Transfer is Context, IICS20Transfer {
         strings.slice memory trimedDenom = data.denom.toSlice().beyond(
             _makeDenomPrefix(packet.source_port, packet.source_channel)
         );
-        if (!denom.equals(trimedDenom)) { // receiver is source chain
-            return _newAcknowledgement(
-                _transferFrom(_getEscrowAddress(packet.destination_channel), data.receiver.toAddress(), trimedDenom.toString(), data.amount)
-            );
-        } else {
-            string memory prefixedDenom = _makeDenomPrefix(packet.destination_port, packet.destination_channel).concat(denom);
-            return _newAcknowledgement(
-                _mint(data.receiver.toAddress(), prefixedDenom, data.amount)
-            );
-        }
+        // if (!denom.equals(trimedDenom)) { // receiver is source chain
+        //     return _newAcknowledgement(
+        //         _transferFrom(_getEscrowAddress(packet.destination_channel), data.receiver.toAddress(), trimedDenom.toString(), data.amount)
+        //     );
+        // } else {
+        //     string memory prefixedDenom = _makeDenomPrefix(packet.destination_port, packet.destination_channel).concat(denom);
+        //     return _newAcknowledgement(
+        //         _mint(data.receiver.toAddress(), prefixedDenom, data.amount)
+        //     );
+        // }
+        return "0x00";
     }
 
     function onAcknowledgementPacket(Packet.Data calldata packet, bytes calldata acknowledgement) external virtual override {
