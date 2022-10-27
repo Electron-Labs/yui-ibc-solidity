@@ -21,6 +21,7 @@ contract IBCHandler {
     event AcknowledgePacket(Packet.Data packet, bytes acknowledgement);
     event TraceMe(string);
     event TraceBool(bool);
+    event TraceAddress(address);
 
     constructor(IBCHost host_) {
         owner = msg.sender;
@@ -124,7 +125,7 @@ contract IBCHandler {
 
     function recvPacket(IBCMsgs.MsgPacketRecv calldata msg_) external returns (bytes memory acknowledgement) {
         IModuleCallbacks module = lookupModuleByChannel(msg_.packet.destination_port, msg_.packet.destination_channel);
-        acknowledgement = module.onRecvPacket(msg_.packet);
+        // acknowledgement = module.onRecvPacket(msg_.packet);
         // IBCChannel.recvPacket(host, msg_);
         // if (acknowledgement.length > 0) {
         //     IBCChannel.writeAcknowledgement(host, msg_.packet.destination_port, msg_.packet.destination_channel, msg_.packet.sequence, acknowledgement);
@@ -171,6 +172,7 @@ contract IBCHandler {
     function lookupModuleByChannel(string memory portId, string memory channelId) internal returns (IModuleCallbacks) {
         (address module, bool found) = host.getModuleOwner(IBCIdentifier.channelCapabilityPath(portId, channelId));
         emit TraceBool(found);
+        emit TraceAddress(module);
         // require(found);
         return IModuleCallbacks(module);
     }
